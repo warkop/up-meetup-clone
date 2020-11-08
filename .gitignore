@@ -239,4 +239,5 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 storage/db-data
+.env
 # End of https://www.toptal.com/developers/gitignore/api/go,windows,linux,macos,visualstudiocode,sublimetext,intellij

@@ -1,53 +1,52 @@
 package main
 
 import (
-	"fmt"
-	"log"
-	"net/http"
-	"path/filepath"
+	"up-meetup-clone/cmd"
 
 	"github.com/gin-gonic/gin"
+	"github.com/spf13/viper"
 )
 
+// login is contract for login
+type login struct {
+	Email    string `form:"email" json:"email" binding:"required"`
+	Password string `form:"password" json:"password" binding:"required"`
+}
+
+var identityKey = "id"
+
+func setupEnv() {
+	viper.SetConfigType("env")
+	viper.AddConfigPath(".")
+	viper.SetConfigName(".env")
+
+}
+
 func main() {
-	router := gin.Default()
+	gin.ForceConsoleColor()
+	r := gin.Default()
 
-	router.GET("/user/:name", func(c *gin.Context) {
-		name := c.Param("name")
-		c.String(http.StatusOK, "Hello %s", name)
-	})
+	setupEnv()
+	err := viper.ReadInConfig()
 
-	router.GET("/user/:name/*action", func(c *gin.Context) {
-		name := c.Param("name")
-		action := c.Param("action")
-		message := name + " is " + action
-		c.String(http.StatusOK, message)
-	})
+	if err != nil {
+		r.Use(gin.Logger())
+	}
 
-	router.GET("/welcome", func(c *gin.Context) {
-		firstname := c.DefaultQuery("firstname", "guest")
-		lastname := c.Query("lastname")
+	port := viper.GetString("SERVER_PORT")
 
-		c.String(http.StatusOK, "Hello %s %s", firstname, lastname)
-	})
+	if port == "" {
+		port = "8000"
+	}
 
-	router.POST("/post", func(c *gin.Context) {
-		ids := c.QueryMap("ids")
-		names := c.PostFormMap("names")
-		fmt.Printf("ids: %v; names: %v", ids, names)
-	})
+	api := r.Group("/api")
 
-	router.MaxMultipartMemory = 8 << 20
-	router.POST("/upload", func(c *gin.Context) {
-		file, _ := c.FormFile("file")
-		log.Println(file.Filename)
+	api.POST("/auth", cmd.Auth)
 
-		filename := filepath.Base(file.Filename)
-		if err := c.SaveUploadedFile(file, filename); err != nil {
-			c.String(http.StatusOK, fmt.Sprintf("upload file err: %s", file.Filename))
-			return
-		}
-	})
+	title := api.Group("/title")
+	// title.Use(AuthRequired())
+	title.GET("/", cmd.ListTitle)
+	title.GET("/:id", cmd.DetailTitle)
 
-	router.Run(":8080")
+	r.Run(":" + port)
 }
