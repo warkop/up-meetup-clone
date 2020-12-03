@@ -44,9 +44,9 @@ func main() {
 	api.POST("/auth", cmd.Auth)
 
 	title := api.Group("/title")
-	// title.Use(AuthRequired())
 	title.GET("/", cmd.ListTitle)
 	title.GET("/:id", cmd.DetailTitle)
+	title.POST("/", cmd.Create)
 
 	r.Run(":" + port)
 }

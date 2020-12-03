@@ -28,3 +28,9 @@ func DetailTitle(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"status": defaultStatus(), "data": title})
 }
+
+// Create is for route Create
+func Create(c *gin.Context) {
+	title := repository.Insert()
+	c.JSON(http.StatusOK, gin.H{"status": defaultStatus(), "data": title})
+}

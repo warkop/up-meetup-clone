@@ -12,8 +12,8 @@ import (
 type Title struct {
 	ID        int            `gorm:"column:id"`
 	Name      string         `gorm:"column:name"`
-	CreatedAt time.Time      `gorm:"column:created_at"`
-	UpdatedAt time.Time      `gorm:"column:updated_at"`
+	CreatedAt time.Time      `gorm:"column:created_at;autoCreateTime"`
+	UpdatedAt time.Time      `gorm:"column:updated_at;autoUpdateTime:milli"`
 	DeletedAt gorm.DeletedAt `gorm:"column:deleted_at"`
 }
 
@@ -41,4 +41,14 @@ func FindByID(id string) interface{} {
 		return nil
 	}
 	return title
+}
+
+// Insert is for insert data
+func Insert() interface{} {
+	db := database.Connect()
+	result := db.Create(&Title{
+		Name: "jinzhu",
+	})
+
+	return result
 }
