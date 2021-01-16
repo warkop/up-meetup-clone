@@ -1,1 +1,1 @@
-web: up-meetup-clone
+web: bin/up-meetup-clone
