@@ -1,6 +1,7 @@
 module github.com/warkop/up-meetup-clone
 
-go 1.14
+// +heroku goVersion go1.16
+go 1.16
 
 require (
 	github.com/Bowery/prompt v0.0.0-20190916142128-fa8279994f75 // indirect
