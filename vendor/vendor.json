@@ -1,7 +1,0 @@
-{
-    "rootPath": "github.com/warkop/up-meetup-clone",
-    "heroku": {
-        "install" : [ "./..." ],
-        "goVersion": "go1.16"
-    }
-}
