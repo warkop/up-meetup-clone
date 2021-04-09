@@ -1,44 +1,24 @@
-module up-meetup-clone
+module github.com/warkop/up-meetup-clone
 
-go 1.12
+go 1.16
 
 require (
-	github.com/appleboy/gin-jwt/v2 v2.6.4
-	github.com/fsnotify/fsnotify v1.4.9 // indirect
-	github.com/gin-gonic/gin v1.6.3
-	github.com/go-playground/validator/v10 v10.4.1 // indirect
-	github.com/gofrs/uuid v4.0.0+incompatible // indirect
-	github.com/golang/protobuf v1.4.3 // indirect
-	github.com/google/go-cmp v0.5.4 // indirect
-	github.com/gopherjs/gopherjs v0.0.0-20200217142428-fce0ec30dd00 // indirect
-	github.com/jackc/pgmock v0.0.0-20201204152224-4fe30f7445fd // indirect
-	github.com/jackc/pgproto3/v2 v2.0.7 // indirect
-	github.com/json-iterator/go v1.1.10 // indirect
-	github.com/kr/text v0.2.0 // indirect
-	github.com/leodido/go-urn v1.2.1 // indirect
-	github.com/lib/pq v1.9.0 // indirect
-	github.com/magiconair/properties v1.8.4 // indirect
-	github.com/mitchellh/mapstructure v1.4.1 // indirect
-	github.com/pelletier/go-toml v1.8.1 // indirect
-	github.com/pkg/errors v0.9.1 // indirect
-	github.com/shopspring/decimal v1.2.0 // indirect
-	github.com/smartystreets/assertions v1.2.0 // indirect
-	github.com/spf13/afero v1.5.1 // indirect
-	github.com/spf13/cast v1.3.1 // indirect
-	github.com/spf13/jwalterweatherman v1.1.0 // indirect
-	github.com/spf13/pflag v1.0.5 // indirect
+	github.com/fastly/go-utils v0.0.0-20180712184237-d95a45783239 // indirect
+	github.com/go-sql-driver/mysql v1.5.0
+	github.com/golang/protobuf v1.3.2
+	github.com/jehiah/go-strftime v0.0.0-20171201141054-1d33003b3869 // indirect
+	github.com/labstack/echo/v4 v4.2.2
+	github.com/lestrrat/go-envload v0.0.0-20180220120943-6ed08b54a570 // indirect
+	github.com/lestrrat/go-file-rotatelogs v0.0.0-20180223000712-d3151e2a480f
+	github.com/lestrrat/go-strftime v0.0.0-20180220042222-ba3bf9c1d042 // indirect
+	github.com/pressly/goose v2.7.0+incompatible
+	github.com/rs/zerolog v1.15.0
+	github.com/spf13/cobra v1.1.3
 	github.com/spf13/viper v1.7.1
-	github.com/stretchr/testify v1.7.0 // indirect
-	github.com/tidwall/gjson v1.6.7 // indirect
-	github.com/ugorji/go v1.2.3 // indirect
-	golang.org/x/crypto v0.0.0-20201221181555-eec23a3978ad
-	golang.org/x/sys v0.0.0-20210113181707-4bcb84eeeb78 // indirect
-	golang.org/x/text v0.3.5 // indirect
-	google.golang.org/protobuf v1.25.0 // indirect
-	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
-	gopkg.in/ini.v1 v1.62.0 // indirect
-	gopkg.in/yaml.v2 v2.4.0 // indirect
-	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
-	gorm.io/driver/postgres v1.0.6
-	gorm.io/gorm v1.20.11
+	github.com/stretchr/testify v1.5.1
+	github.com/tebeka/strftime v0.1.5 // indirect
+	golang.org/x/crypto v0.0.0-20210322153248-0c34fe9e7dc2 // indirect
+	google.golang.org/grpc v1.21.1
+	gorm.io/driver/mysql v1.0.5
+	gorm.io/gorm v1.21.7
 )

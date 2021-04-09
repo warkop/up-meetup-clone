@@ -1,0 +1,33 @@
+{
+	"root_dir": ".",
+	"database": {
+		"engine": "mysql",
+		"host": "localhost",
+		"port": 3306,
+		"username": "root",
+		"password": "gandung089",
+		"schema": "foo_user",
+		"reconnect_retry": 5,
+		"reconnect_interval": 10,
+		"debug_mode": false,
+		"pool": {
+			"max_open_conns": 10,
+			"max_idle_conns": 5
+		}
+	},
+	"storage": {
+		"driver": "redis",
+		"host": "localhost",
+		"port": "6379"
+	},
+	"http": {
+		"port": "8000"
+	},
+	"grpc": {
+		"port": "9090"
+	},
+	"log": {
+		"log_max_age": 5,
+		"debug": true
+	}
+}

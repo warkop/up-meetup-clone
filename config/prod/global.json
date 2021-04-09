@@ -1,0 +1,33 @@
+{
+	"root_dir": "",
+	"database": {
+		"engine": "",
+		"host": "",
+		"port": "",
+		"username": "",
+		"password": "",
+		"schema": "",
+		"reconnect_retry": 0,
+		"reconnect_interval": 0,
+		"debug_mode": false,
+		"pool": {
+			"max_open_conns": 0,
+			"max_idle_conns": 0
+		}
+	},
+	"storage": {
+		"driver": "",
+		"host": "",
+		"port": ""
+	},
+	"http": {
+		"port": ""
+	},
+	"grpc": {
+		"port": ""
+	},
+	"log": {
+		"log_max_age": 0,
+		"debug": true
+	}
+}
