@@ -5,7 +5,6 @@ go 1.16
 require (
 	github.com/fastly/go-utils v0.0.0-20180712184237-d95a45783239 // indirect
 	github.com/go-sql-driver/mysql v1.5.0
-	github.com/golang/protobuf v1.3.2
 	github.com/jehiah/go-strftime v0.0.0-20171201141054-1d33003b3869 // indirect
 	github.com/labstack/echo/v4 v4.2.2
 	github.com/lestrrat/go-envload v0.0.0-20180220120943-6ed08b54a570 // indirect
@@ -18,7 +17,6 @@ require (
 	github.com/stretchr/testify v1.5.1
 	github.com/tebeka/strftime v0.1.5 // indirect
 	golang.org/x/crypto v0.0.0-20210322153248-0c34fe9e7dc2 // indirect
-	google.golang.org/grpc v1.21.1
 	gorm.io/driver/mysql v1.0.5
 	gorm.io/gorm v1.21.7
 )
