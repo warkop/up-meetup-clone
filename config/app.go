@@ -3,6 +3,7 @@ package config
 import (
 	"fmt"
 	"os"
+
 	"github.com/spf13/viper"
 )
 
@@ -37,6 +38,6 @@ func LoadEnvVars() {
 
 	err := viper.ReadInConfig()
 	if err != nil {
-		panic(fmt.Errorf("Fatal error config file: %s", err.Error()))
+		panic(fmt.Errorf("fatal error config file: %s", err.Error()))
 	}
 }
