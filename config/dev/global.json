@@ -1,12 +1,12 @@
 {
 	"root_dir": ".",
 	"database": {
-		"engine": "mysql",
-		"host": "localhost",
-		"port": 3306,
-		"username": "root",
-		"password": "toor",
-		"schema": "majoo_test",
+		"engine": "pgsql",
+		"host": "127.0.0.1",
+		"port": 5432,
+		"username": "postgres",
+		"password": "postgres",
+		"schema": "universitas_pertamina",
 		"reconnect_retry": 5,
 		"reconnect_interval": 10,
 		"debug_mode": false,

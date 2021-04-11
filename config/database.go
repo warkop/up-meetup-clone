@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/spf13/viper"
-	"gorm.io/driver/mysql"
+	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
@@ -18,7 +18,7 @@ type Database struct {
 	User              string
 	Password          string
 	Schema            string
-	Port              int
+	Port              string
 	ReconnectRetry    int
 	ReconnectInterval int64
 	DebugMode         bool
@@ -31,7 +31,7 @@ func LoadDatabaseConfig() Database {
 		User:              viper.GetString("database.username"),
 		Password:          viper.GetString("database.password"),
 		Schema:            viper.GetString("database.schema"),
-		Port:              viper.GetInt("database.port"),
+		Port:              viper.GetString("database.port"),
 		ReconnectRetry:    viper.GetInt("database.reconnect_retry"),
 		ReconnectInterval: viper.GetInt64("database.reconnect_interval"),
 		DebugMode:         viper.GetBool("database.debug_mode"),
@@ -42,21 +42,9 @@ func LoadDatabaseConfig() Database {
 
 func DBConnect() *gorm.DB {
 	conf := LoadDatabaseConfig()
-	inst, err := gorm.Open(mysql.New(mysql.Config{
-		DSN: fmt.Sprintf(
-			"%s:%s@tcp(%s:%d)/%s?charset=utf8&parseTime=True&loc=Local",
-			conf.User,
-			conf.Password,
-			conf.Host,
-			conf.Port,
-			conf.Schema,
-		), // data source name
-		DefaultStringSize:         256,   // default size for string fields
-		DisableDatetimePrecision:  true,  // disable datetime precision, which not supported before MySQL 5.6
-		DontSupportRenameIndex:    true,  // drop & create when rename index, rename index not supported before MySQL 5.7, MariaDB
-		DontSupportRenameColumn:   true,  // `change` when rename column, rename column not supported before MySQL 8, MariaDB
-		SkipInitializeWithVersion: false, // auto configure based on currently MySQL version
-	}), &gorm.Config{})
+	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Jakarta", conf.Host, conf.User, conf.Password, conf.Schema, conf.Port)
+	fmt.Println("dsn:", dsn)
+	inst, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
 	if err != nil {
 		panic(err)

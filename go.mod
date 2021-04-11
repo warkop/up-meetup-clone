@@ -4,13 +4,9 @@ module github.com/warkop/up-meetup-clone
 go 1.16
 
 require (
-	github.com/Bowery/prompt v0.0.0-20190916142128-fa8279994f75 // indirect
-	github.com/dchest/safefile v0.0.0-20151022103144-855e8d98f185 // indirect
 	github.com/fastly/go-utils v0.0.0-20180712184237-d95a45783239 // indirect
 	github.com/go-sql-driver/mysql v1.5.0
-	github.com/google/shlex v0.0.0-20191202100458-e7afc7fbc510 // indirect
 	github.com/jehiah/go-strftime v0.0.0-20171201141054-1d33003b3869 // indirect
-	github.com/kardianos/govendor v1.0.9 // indirect
 	github.com/labstack/echo/v4 v4.2.2
 	github.com/lestrrat/go-envload v0.0.0-20180220120943-6ed08b54a570 // indirect
 	github.com/lestrrat/go-file-rotatelogs v0.0.0-20180223000712-d3151e2a480f
@@ -24,7 +20,7 @@ require (
 	github.com/tebeka/strftime v0.1.5 // indirect
 	golang.org/x/crypto v0.0.0-20210322153248-0c34fe9e7dc2 // indirect
 	golang.org/x/sys v0.0.0-20210403161142-5e06dd20ab57 // indirect
-	golang.org/x/tools v0.1.0 // indirect
-	gorm.io/driver/mysql v1.0.5
+	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
+	gorm.io/driver/postgres v1.0.8
 	gorm.io/gorm v1.21.7
 )
