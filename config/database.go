@@ -1,8 +1,6 @@
 package config
 
 import (
-	"fmt"
-
 	"github.com/spf13/viper"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -22,6 +20,7 @@ type Database struct {
 	ReconnectRetry    int
 	ReconnectInterval int64
 	DebugMode         bool
+	URL               string
 }
 
 func LoadDatabaseConfig() Database {
@@ -35,6 +34,7 @@ func LoadDatabaseConfig() Database {
 		ReconnectRetry:    viper.GetInt("database.reconnect_retry"),
 		ReconnectInterval: viper.GetInt64("database.reconnect_interval"),
 		DebugMode:         viper.GetBool("database.debug_mode"),
+		URL:               viper.GetString("database.url"),
 	}
 
 	return conf
@@ -42,9 +42,7 @@ func LoadDatabaseConfig() Database {
 
 func DBConnect() *gorm.DB {
 	conf := LoadDatabaseConfig()
-	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Jakarta", conf.Host, conf.User, conf.Password, conf.Schema, conf.Port)
-	fmt.Println("dsn:", dsn)
-	inst, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	inst, err := gorm.Open(postgres.Open(conf.URL), &gorm.Config{})
 
 	if err != nil {
 		panic(err)

@@ -13,7 +13,8 @@
 		"pool": {
 			"max_open_conns": 10,
 			"max_idle_conns": 5
-		}
+		},
+		"url": "postgres://ufqfbplwwonkzh:488bb8f34e7545d68f121598f28ccd52990ebbf8c525379093f0aa8a528d856e@ec2-54-164-22-242.compute-1.amazonaws.com:5432/d8t4h0a300msm"
 	},
 	"storage": {
 		"driver": "redis",
