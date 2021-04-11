@@ -5,7 +5,7 @@ go 1.16
 
 require (
 	github.com/fastly/go-utils v0.0.0-20180712184237-d95a45783239 // indirect
-	github.com/go-sql-driver/mysql v1.5.0
+	github.com/go-sql-driver/mysql v1.6.0
 	github.com/jehiah/go-strftime v0.0.0-20171201141054-1d33003b3869 // indirect
 	github.com/labstack/echo/v4 v4.2.2
 	github.com/lestrrat/go-envload v0.0.0-20180220120943-6ed08b54a570 // indirect
