@@ -24,7 +24,7 @@ var (
 		inst, err := sql.Open(
 			conf.Engine,
 			fmt.Sprintf(
-				"%s:%s@tcp(%s:%d)/%s?charset=utf8&parseTime=True&loc=local",
+				"%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=local",
 				conf.User,
 				conf.Password,
 				conf.Host,

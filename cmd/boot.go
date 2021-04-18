@@ -2,16 +2,17 @@ package cmd
 
 import (
 	"context"
+	"fmt"
 	"os"
 	"os/signal"
 	"time"
 
 	_ "github.com/warkop/up-meetup-clone/config"
-	_ "github.com/warkop/up-meetup-clone/logger"
 	"github.com/warkop/up-meetup-clone/routes"
 
-	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
+	fiberLogger "github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -20,47 +21,54 @@ var startCmd = &cobra.Command{
 	Use:   "boot",
 	Short: "Boot user http service.",
 	Run: func(cmd *cobra.Command, args []string) {
-		e := echo.New()
+		app := fiber.New(fiber.Config{
+			ErrorHandler: func(c *fiber.Ctx, err error) error {
+				return c.Status(500).SendString(err.Error())
+			},
+		})
 
-		e.Pre(middleware.RemoveTrailingSlash())
-
-		/*e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
-			Output: logger.MiddlewareLog,
-		}))*/
+		app.Use(fiberLogger.New(fiberLogger.Config{
+			Next:         nil,
+			Format:       "[${time}] ${status} - ${latency} ${method} ${path}\n",
+			TimeFormat:   "15:04:05",
+			TimeZone:     "Local",
+			TimeInterval: 500 * time.Millisecond,
+			Output:       os.Stderr,
+		}))
 
 		// handle JWT
-		e.Use(middleware.JWTWithConfig(middleware.JWTConfig{
-			SigningKey: []byte("fill-signing-key-here"),
-		}))
+		// app.Use(jwtware.New(jwtware.Config{
+		// 	SigningKey: []byte("my Secret key!"),
+		// }))
 
 		// handle CORS
-		e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-			AllowHeaders: []string{
-				echo.HeaderOrigin,
-				echo.HeaderContentType,
-				echo.HeaderAccept,
-				echo.HeaderAuthorization,
-			},
+		app.Use(cors.New(cors.Config{
+			AllowHeaders: fmt.Sprintf(`%s, %s, %s, %s`,
+				fiber.HeaderOrigin,
+				fiber.HeaderContentType,
+				fiber.HeaderAccept,
+				fiber.HeaderAuthorization,
+			),
 		}))
 
-		routes.Endpoints(e)
+		routes.Endpoints(app)
 
 		go func() {
-			if err := e.Start(":" + viper.GetString("http.port")); err != nil {
-				e.Logger.Info("Shutting down the server.")
+			if err := app.Listen(":" + viper.GetString("http.port")); err != nil {
+				app.Server().Logger.Printf("Shutting down the server.")
 			}
 		}()
 
-		quit := make(chan os.Signal)
+		quit := make(chan os.Signal, 1)
 		signal.Notify(quit, os.Interrupt)
 
 		<-quit
 
-		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		_, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 		defer cancel()
 
-		if err := e.Shutdown(ctx); err != nil {
-			e.Logger.Fatal(err)
+		if err := app.Shutdown(); err != nil {
+			app.Server().Logger.Printf(`%s`, err)
 		}
 	},
 }

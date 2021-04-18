@@ -2,128 +2,56 @@ package repository
 
 import (
 	"github.com/warkop/up-meetup-clone/api/v1/user/models"
-	"github.com/warkop/up-meetup-clone/lib/db"
+	"gorm.io/gorm"
 )
 
 type UserRepositoryProto interface {
-	Create(user *models.User) error
-	Fetch() ([]*models.User, error)
-	FetchByID(id int64) (*models.User, error)
+	Create(user *models.User) (err error)
+	Fetch() (response []*models.User, err error)
+	FetchByID(id int64) (response *models.User, err error)
 	Update(id int64, user *models.User) error
 	Delete(id int64) error
 }
 
 type UserRepository struct {
-	Orm db.TransactionProto
+	db *gorm.DB
 }
 
-func NewUserRepository(tx db.TransactionProto) UserRepositoryProto {
+func NewUserRepository(connection *gorm.DB) UserRepositoryProto {
 	return &UserRepository{
-		Orm: tx,
+		db: connection,
 	}
 }
 
-func (repo *UserRepository) Create(user *models.User) error {
-	tx := repo.Orm.(*db.Transaction)
+func (repo *UserRepository) Create(user *models.User) (err error) {
+	err = repo.db.Create(user).Error
 
-	tx.Begin()
-
-	if tx.GetError() != nil {
-		return tx.GetError()
-	}
-
-	tx.Create(user)
-
-	if tx.GetError() != nil {
-		tx.Rollback()
-		return tx.GetError()
-	}
-
-	tx.Commit()
-
-	return nil
+	return err
 }
 
-func (repo *UserRepository) Fetch() ([]*models.User, error) {
-	users := make([]*models.User, 0)
-	tx := repo.Orm.(*db.Transaction)
+func (repo *UserRepository) Fetch() (response []*models.User, err error) {
+	err = repo.db.Model(response).Find(&response).Error
 
-	tx.Begin()
-
-	if tx.GetError() != nil {
-		return nil, tx.GetError()
-	}
-
-	tx.Find(&users)
-
-	if tx.GetError() != nil {
-		tx.Rollback()
-		return nil, tx.GetError()
-	}
-
-	tx.Commit()
-
-	return users, nil
+	return response, err
 }
 
-func (repo *UserRepository) FetchByID(id int64) (*models.User, error) {
-	user := new(models.User)
-	tx := repo.Orm.(*db.Transaction)
-
-	tx.Begin()
-
-	if tx.GetError() != nil {
-		return nil, tx.GetError()
-	}
-
-	tx.First(&user, id)
-
-	if tx.GetError() != nil {
-		tx.Rollback()
-		return nil, tx.GetError()
-	}
-
-	tx.Commit()
-
-	return user, nil
+func (repo *UserRepository) FetchByID(id int64) (response *models.User, err error) {
+	err = repo.db.Model(response).Where(`id = ?`, id).Find(&response).Error
+	return response, err
 }
 
-func (repo *UserRepository) Update(id int64, user *models.User) error {
-	tx := repo.Orm.(*db.Transaction)
-
-	tx.Begin()
-
-	if tx.GetError() != nil {
-		return tx.GetError()
-	}
-
-	ud := make(map[string]interface{}, 0)
+func (repo *UserRepository) Update(id int64, user *models.User) (err error) {
+	ud := make(map[string]interface{})
 	ud["name"] = user.Name
 	ud["email"] = user.Email
 
-	tx.Where("id = ?", id).Update(ud)
+	err = repo.db.Where("id = ?", id).Updates(ud).Error
 
-	if tx.GetError() != nil {
-		tx.Rollback()
-		return tx.GetError()
-	}
-
-	tx.Commit()
-
-	return nil
+	return err
 }
 
-func (repo *UserRepository) Delete(id int64) error {
-	tx := repo.Orm.(*db.Transaction)
+func (repo *UserRepository) Delete(id int64) (err error) {
+	err = repo.db.Where("id = ?", id).Delete(models.User{}).Error
 
-	tx.Where("id = ?", id).Delete(models.User{})
-
-	if tx.GetError() != nil {
-		tx.Rollback()
-		return tx.GetError()
-	}
-
-	tx.Commit()
-
-	return nil
+	return err
 }

@@ -1,12 +1,12 @@
 package route
 
 import (
-	"github.com/labstack/echo/v4"
+	"github.com/gofiber/fiber/v2"
 	"github.com/warkop/up-meetup-clone/api/v1/user/gateway/handler/http"
 )
 
 type UserRouteProto interface {
-	Init(e *echo.Echo)
+	Init(app *fiber.App)
 }
 
 type UserRoute struct {
@@ -19,12 +19,12 @@ func NewUserRoute(handler http.UserHandlerProto) UserRouteProto {
 	}
 }
 
-func (ur *UserRoute) Init(e *echo.Echo) {
-	user := e.Group("/api/v1")
+func (ur *UserRoute) Init(app *fiber.App) {
+	user := app.Group("/api/v1")
 
-	user.GET("/user", ur.Handler.Fetch)
-	user.GET("/user/:id", ur.Handler.FetchByID)
-	user.POST("/user", ur.Handler.Create)
-	user.PUT("/user/:id", ur.Handler.Update)
-	user.DELETE("/user/:id", ur.Handler.Delete)
+	user.Get("/user", ur.Handler.Fetch)
+	user.Get("/user/:id", ur.Handler.FetchByID)
+	user.Post("/user", ur.Handler.Create)
+	user.Put("/user/:id", ur.Handler.Update)
+	user.Delete("/user/:id", ur.Handler.Delete)
 }

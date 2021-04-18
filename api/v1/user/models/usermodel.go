@@ -11,3 +11,7 @@ type UserModel struct {
 	Name  string `gorm:"type:text"`
 	Email string `gorm:"type:text"`
 }
+
+func (User) TableName() string {
+	return "user"
+}
