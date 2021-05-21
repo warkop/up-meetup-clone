@@ -13,6 +13,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	fiberLogger "github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -50,6 +51,9 @@ var startCmd = &cobra.Command{
 				fiber.HeaderAuthorization,
 			),
 		}))
+
+		// recover all panic
+		app.Use(recover.New())
 
 		routes.Endpoints(app)
 
